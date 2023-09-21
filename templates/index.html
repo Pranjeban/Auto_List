@@ -1,43 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Manager</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4; /* Light gray background */
+            color: #333; /* Dark text color */
+            margin: 0;
+            padding: 0;
+        }
 
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            text-align: center;
+            background-color: #fff; /* White background for content */
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+        }
 
+        form, div {
+            margin-bottom: 20px;
+            text-align: left;
+        }
 
-<form action="/addTask" method="GET">
-	<input type="text" name="task" placeholder="Task">
-	<button type="submit">Add Task</button>
-</form>
+        input, button {
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            width: calc(100% - 22px);
+            margin-bottom: 10px;
+        }
 
-<div>
+        button {
+            cursor: pointer;
+            background-color: #4CAF50; /* Green button color */
+            color: white;
+            border: none;
+            transition: background 0.3s;
+        }
 
-    <h3>Todo Tasks</h3>
-    <br>
-    {% if tasks|length < 1 %}
-    <p>No tasks to display</p>
-    {% else %}
-    <table>
-        {% for task in tasks %}
-        <tr>
-            <td>{{ task[1] }} [<a href="/move-to-done/{{ task[0] }}/{{ task[1] }}">done</a> | <a href="/deleteTask/{{ task[0] }}">delete</a>] </td>
-        </tr>
-        {% endfor %}
-    </table>
-    {% endif %}
-    
-</div>
-<hr>
+        button:hover {
+            background-color: #45a049; /* Slightly darker green on hover */
+        }
 
-<div>
-    <h3>Tasks Completed</h3>
-    {% if done|length < 1 %}
-    <p>No tasks completed</p>
-    {% else %}
-        <table>
-            {% for task in done %}
-        <tr>
-            <td>
-                {{ task[1] }} [<a href="/delete-completed/{{ task[0] }}">delete</a>]
-            </td>
-        </tr>
-        {% endfor %}
-        </table>
-        {% endif %}
-</div>
+        h3 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        table, th, td {
+            border: 1px solid #ccc;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+
+        a {
+            text-decoration: none;
+            color: #007BFF; /* Blue color for links */
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <form action="/addTask" method="GET">
+            <input type="text" name="task" placeholder="Task">
+            <button type="submit">Add Task</button>
+        </form>
+
+        <div>
+            <h3>Todo Tasks</h3>
+            {% if tasks|length < 1 %}
+                <p>No tasks to display</p>
+            {% else %}
+                <table>
+                    {% for task in tasks %}
+                        <tr>
+                            <td>
+                                {{ task[1] }} [<a href="/move-to-done/{{ task[0] }}/{{ task[1] }}">done</a> |
+                                <a href="/deleteTask/{{ task[0] }}">delete</a>]
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            {% endif %}
+        </div>
+
+        <hr>
+
+        <div>
+            <h3>Tasks Completed</h3>
+            {% if done|length < 1 %}
+                <p>No tasks completed</p>
+            {% else %}
+                <table>
+                    {% for task in done %}
+                        <tr>
+                            <td>
+                                {{ task[1] }} [<a href="/delete-completed/{{ task[0] }}">delete</a>]
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>
